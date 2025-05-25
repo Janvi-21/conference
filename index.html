@@ -1,0 +1,1239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Women Empowerment Conference Hub</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+
+    :root {
+      --color-light-pink: #f8bbd0;
+      --color-pink: #ad1457;
+      --color-deep-pink: #880e4f;
+      --color-dark-blue: #003366;
+      --color-deep-blue: #001f4d;
+      --color-sky-green: #b2dfdb;
+      --color-white: #fff;
+      --shadow-light: rgba(0,0,0,0.12);
+      --shadow-dark: rgba(0,0,0,0.22);
+      --font-family: 'Montserrat', sans-serif;
+    }
+
+    /* Base reset and styles */
+    * {
+      box-sizing: border-box;
+    }
+  
+    body {
+      margin: 0;
+      font-family: var(--font-family);
+      background: linear-gradient(135deg, #fce4ec 20%, #b2dfdb 80%);
+      color: var(--color-dark-blue);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 25px 15px 60px;
+      user-select: none;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* Header */
+    header {
+      text-align: center;
+      max-width: 900px;
+      margin-bottom: 30px;
+      color: var(--color-deep-blue);
+      text-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+    header h1 {
+      font-weight: 700;
+      font-size: 3rem;
+      margin-bottom: 12px;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+    }
+    header p {
+      font-size: 1.2rem;
+      font-weight: 600;
+      line-height: 1.4;
+      max-width: 700px;
+      margin: 0 auto;
+      color: var(--color-deep-blue);
+      opacity: 0.85;
+      user-select: text;
+    }
+
+    /* Calendar container */
+    #calendar-container {
+      width: 100%;
+      max-width: 900px;
+      background-color: var(--color-white);
+      border-radius: 22px;
+      box-shadow: 0 8px 24px var(--shadow-light);
+      padding: 30px 30px 40px;
+      display: flex;
+      flex-direction: column;
+      user-select: text;
+    }
+
+    /* Top controls and filters */
+    #top-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    #month-navigation {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    #month-navigation button {
+      background: var(--color-pink);
+      border: none;
+      color: var(--color-white);
+      font-weight: 700;
+      font-size: 1.3rem;
+      padding: 10px 18px;
+      border-radius: 16px;
+      cursor: pointer;
+      box-shadow: 0 5px 15px rgba(173, 20, 87, 0.7);
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+      user-select: none;
+      min-width: 50px;
+    }
+    #month-navigation button:disabled {
+      background: #f7a8c0;
+      cursor: default;
+      box-shadow: none;
+      opacity: 0.65;
+    }
+    #month-navigation button:hover:not(:disabled) {
+      background: var(--color-deep-pink);
+      box-shadow: 0 7px 20px rgba(136, 14, 79, 0.85);
+    }
+
+    #current-month-year {
+      font-size: 1.65rem;
+      font-weight: 900;
+      color: var(--color-deep-blue);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      user-select: text;
+      min-width: 220px;
+      text-align: center;
+    }
+
+    /* Filter dropdown */
+    #filter-container {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    select {
+      font-family: var(--font-family);
+      font-weight: 600;
+      font-size: 1rem;
+      padding: 10px 16px;
+      border-radius: 14px;
+      border: 2px solid var(--color-deep-blue);
+      background-color: var(--color-sky-green);
+      color: var(--color-deep-blue);
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.07);
+      transition: background-color 0.3s, border-color 0.3s;
+      min-width: 150px;
+      user-select: none;
+    }
+    select:hover, select:focus {
+      background-color: var(--light-pink);
+      border-color: var(--color-pink);
+      outline: none;
+    }
+
+    /* Calendar grid */
+    #calendar {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      grid-auto-rows: 110px;
+      gap: 12px;
+      user-select: none;
+    }
+
+    /* Weekday headers */
+    .day-name {
+      font-weight: 700;
+      color: var(--color-pink);
+      text-align: center;
+      padding: 10px 0 6px;
+      border-bottom: 1.5px solid var(--color-pink);
+      font-size: 1.1rem;
+      user-select: none;
+    }
+
+    /* Day cells */
+    .day {
+      background: var(--color-sky-green);
+      border-radius: 16px;
+      padding: 8px 12px;
+      position: relative;
+      cursor: pointer;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+      color: var(--color-deep-blue);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: flex-start;
+      transition:
+        background-color 0.3s ease,
+        box-shadow 0.3s ease,
+        transform 0.3s ease;
+      font-size: 1rem;
+      user-select: none;
+      outline-offset: 3px;
+    }
+
+    .day:focus-visible {
+      outline: 3px solid var(--color-pink);
+      outline-offset: 3px;
+      background-color: var(--light-pink);
+      transform: scale(1.05);
+      z-index: 3;
+    }
+
+    .day:hover {
+      background: var(--light-pink);
+      box-shadow: 0 10px 30px rgba(173, 20, 87, 0.7);
+      transform: scale(1.08);
+      z-index: 2;
+    }
+
+    /* Disabled days (not in month or no events) */
+    .disabled {
+      background: #efefef !important;
+      color: #b0b0b0 !important;
+      box-shadow: none !important;
+      cursor: default !important;
+      transform: none !important;
+    }
+
+    /* Date number styling */
+    .date-number {
+      font-weight: 700;
+      font-size: 1.3rem;
+      user-select: none;
+      padding: 0 0 8px 0;
+    }
+
+    /* Conference dot indicators - Online = teal, Offline = pink */
+    .event-indicator {
+      position: absolute;
+      bottom: 12px;
+      right: 12px;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      box-shadow: 0 0 6px rgba(0,0,0,0.18);
+      transition: box-shadow 0.3s ease;
+    }
+    .event-online {
+      background-color: #00796b; /* teal / sky green */
+      filter: drop-shadow(0 0 2px #004d40);
+    }
+    .event-offline {
+      background-color: var(--color-pink);
+      filter: drop-shadow(0 0 2px #880e4f);
+    }
+    .event-indicator:hover {
+      box-shadow: 0 0 14px 4px rgba(173, 20, 87, 0.7);
+    }
+
+    /* Modal styles */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1200;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow-y: auto;
+      background-color: rgba(0, 0, 0, 0.62);
+      padding-top: 80px;
+      backdrop-filter: blur(3px);
+      -webkit-font-smoothing: antialiased;
+      user-select: text;
+    }
+
+    .modal-content {
+      background-color: var(--color-white);
+      margin: auto;
+      padding: 30px 35px 40px;
+      border-radius: 22px;
+      width: 90%;
+      max-width: 640px;
+      box-shadow: 0 8px 40px var(--shadow-dark);
+      position: relative;
+      animation: slideDown 0.45s ease forwards;
+    }
+
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-40px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .close {
+      color: var(--color-pink);
+      font-size: 34px;
+      font-weight: 900;
+      position: absolute;
+      top: 20px;
+      right: 25px;
+      cursor: pointer;
+      transition: color 0.3s ease;
+      user-select: none;
+    }
+    .close:hover {
+      color: var(--color-deep-pink);
+    }
+
+    /* Modal content typography */
+    #modal-title {
+      font-size: 2rem;
+      font-weight: 900;
+      margin-bottom: 15px;
+      color: var(--color-deep-blue);
+      letter-spacing: 0.05em;
+    }
+
+    #modal-date,
+    #modal-location {
+      font-weight: 700;
+      color: var(--color-pink);
+      margin-bottom: 12px;
+      font-size: 1.15rem;
+      user-select: text;
+    }
+
+    #modal-description {
+      font-size: 1.1rem;
+      color: #444;
+      margin-bottom: 24px;
+      line-height: 1.55;
+      user-select: text;
+      min-height: 80px;
+    }
+
+    #modal-link {
+      background-color: var(--color-pink);
+      padding: 14px 22px;
+      border-radius: 18px;
+      color: var(--color-white);
+      font-weight: 900;
+      font-size: 1.1rem;
+      text-decoration: none;
+      box-shadow: 0 6px 25px rgba(173,20,87,0.8);
+      display: inline-block;
+      transition: background-color 0.4s ease;
+      user-select: none;
+    }
+    #modal-link:hover,
+    #modal-link:focus {
+      background-color: var(--color-deep-pink);
+      box-shadow: 0 8px 32px rgba(136,14,79,0.9);
+      outline: none;
+    }
+
+    /* Footer */
+    footer {
+      margin-top: 40px;
+      font-weight: 700;
+      color: var(--color-deep-blue);
+      letter-spacing: 0.08em;
+      user-select: none;
+    }
+
+    /* Responsive */
+    @media (max-width: 640px) {
+      body {
+        padding: 20px 12px 60px;
+      }
+      header h1 {
+        font-size: 2rem;
+      }
+      header p {
+        font-size: 1rem;
+        max-width: 100%;
+      }
+      #month-navigation button {
+        font-size: 1.1rem;
+        padding: 8px 14px;
+        min-width: 44px;
+      }
+      #current-month-year {
+        font-size: 1.3rem;
+        min-width: 160px;
+      }
+      #calendar {
+        grid-auto-rows: 90px;
+        gap: 8px;
+      }
+      .day {
+        font-size: 0.9rem;
+        padding: 6px 8px;
+      }
+      #modal-title {
+        font-size: 1.6rem;
+      }
+      #modal-description {
+        font-size: 1rem;
+      }
+      #modal-link {
+        font-size: 1rem;
+        padding: 12px 18px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Women Empowerment Conference Hub</h1>
+    <p>Explore monthly women empowerment conferences - online & offline with detailed info and easy navigation. Focused especially on India, May to September 2024.</p>
+  </header>
+
+  <div id="calendar-container" aria-label="Calendar container with navigation and filters">
+
+    <div id="top-controls">
+      <div id="month-navigation" aria-label="Select month navigation">
+        <button id="prev-month" aria-label="Previous month">&larr;</button>
+        <div id="current-month-year" aria-live="polite" aria-atomic="true"></div>
+        <button id="next-month" aria-label="Next month">&rarr;</button>
+      </div>
+
+      <div id="filter-container" aria-label="Conference type filter">
+        <select id="filter-type" aria-label="Filter conferences by type">
+          <option value="all" selected>All Conferences</option>
+          <option value="online">Online Only</option>
+          <option value="offline">Offline Only</option>
+        </select>
+      </div>
+    </div>
+
+    <div id="calendar" aria-label="Monthly calendar grid">
+      <!-- Weekday headers and days rendered here dynamically -->
+    </div>
+
+  </div>
+
+  <footer>
+    &copy; 2024 Women Empowerment Conference Hub
+  </footer>
+
+  <div id="modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-describedby="modal-description" tabindex="-1">
+    <div class="modal-content">
+      <span class="close" role="button" aria-label="Close modal" tabindex="0">&times;</span>
+      <h2 id="modal-title"></h2>
+      <p id="modal-date"></p>
+      <p id="modal-location"></p>
+      <p id="modal-description"></p>
+      <a id="modal-link" href="#" target="_blank" rel="noopener noreferrer" aria-label="Conference registration link">Register Here</a>
+    </div>
+  </div>
+
+  <script>
+    // Data: Conferences focusing on May - September 2024, online and offline events focused on India and global virtual
+    const conferences = [
+      {
+  id: 101,
+  title: "International Conference on Advancements in Computing Technology & Applications (ICACTA-25)",
+  date: "2025-05-06T10:00:00",
+  location: "Nagpur, India",
+  type: "online and in-person",
+  description: "Focuses on recent advancements in computing technology and its applications across various domains.",
+  link: "https://conferencealerts.com/country-listing.php?country=India&ipp=All&page=1"
+},
+{
+  id: 102,
+  title: "16th International Conference On Recent Engineering And Technology 2025",
+  date: "2025-05-16T10:00:00",
+  location: "Bangalore, India",
+  type: "online and in-person",
+  description: "Aims to bring together researchers and practitioners to discuss recent innovations in engineering and technology.",
+  link: "https://conferencealerts.com/country-listing.php?country=India&ipp=All&page=1"
+},
+{
+  id: 103,
+  title: "6th World Conference on Artificial Intelligence: Advances and Applications (WCAIAA 2025)",
+  date: "2025-05-17T10:00:00",
+  location: "Mandi, India",
+  type: "online and in-person",
+  description: "Explores the latest developments and applications in artificial intelligence across various sectors.",
+  link: "https://conferencealerts.com/country-listing.php?country=India&ipp=All&page=1"
+},
+{
+  id: 104,
+  title: "2025 First Global Conference on AI Research and Emerging Developments",
+  date: "2025-05-17T10:00:00",
+  location: "New Delhi, India",
+  type: "online and in-person",
+  description: "Provides a platform for discussing emerging trends and research in artificial intelligence.",
+  link: "https://conferencealerts.com/country-listing.php?country=India&ipp=All&page=1"
+},
+{
+  id: 105,
+  title: "International Conference on Structural Integrity and Interactions of Materials in Civil Engineering Structures",
+  date: "2025-05-21T10:00:00",
+  location: "Sonepat, India",
+  type: "online and in-person",
+  description: "Focuses on the structural integrity and material interactions in civil engineering.",
+  link: "https://conferencealerts.com/country-listing.php?country=India&ipp=All&page=1"
+},
+{
+  id: 106,
+  title: "International Conference on Monitoring, Assessment and Predictive Maintenance of Critical Infrastructure (i-MAP2025)",
+  date: "2025-05-21T10:00:00",
+  location: "Chennai, India",
+  type: "online and in-person",
+  description: "Discusses monitoring and maintenance strategies for critical infrastructure systems.",
+  link: "https://conferencealerts.com/country-listing.php?country=India&ipp=All&page=1"
+},
+{
+  id: 107,
+  title: "International Research Conference in Business and Technology",
+  date: "2025-05-24T10:00:00",
+  location: "Pune, India",
+  type: "online and in-person",
+  description: "Explores the intersection of business practices and technological advancements.",
+  link: "https://conferencealerts.com/country-listing.php?country=India&ipp=All&page=1"
+},
+{
+  id: 108,
+  title: "LexTalk World Conference and Exhibitions India - 2025",
+  date: "2025-05-26T10:00:00",
+  location: "New Delhi, India",
+  type: "in-person",
+  description: "A platform for legal professionals to discuss contemporary legal challenges and innovations.",
+  link: "https://conferencealerts.com/country-listing.php?country=India&ipp=All&page=1"
+},
+{
+  id: 109,
+  title: "International Conference on Innovation and Digital Transformation in Academic Libraries (ICIDTAL)",
+  date: "2025-05-27T10:00:00",
+  location: "Faridabad, India",
+  type: "in-person",
+  description: "Focuses on digital transformation strategies in academic libraries.",
+  link: "https://conferencealerts.com/country-listing.php?country=India&ipp=All&page=1"
+},
+{
+  id: 110,
+  title: "3rd International Conference on Networks and Cryptology",
+  date: "2025-05-29T10:00:00",
+  location: "New Delhi, India",
+  type: "online and in-person",
+  description: "Discusses advancements in network security and cryptographic techniques.",
+  link: "https://conferencealerts.com/country-listing.php?country=India&ipp=All&page=1"
+},
+{
+  id: 111,
+  title: "4th International Conference on Innovation and Research in Science and Technology for Sustainable Development",
+  date: "2025-05-29T10:00:00",
+  location: "Raiga, India",
+  type: "online and in-person",
+  description: "Explores innovative research in science and technology aimed at sustainable development.",
+  link: "https://conferencealerts.com/country-listing.php?country=India&ipp=All&page=1"
+},
+{
+  id: 112,
+  title: "International Conference on Computational Intelligence and AI-Powered Communication",
+  date: "2025-05-30T10:00:00",
+  location: "Coimbatore, India",
+  type: "online and in-person",
+  description: "Focuses on the integration of computational intelligence in communication systems.",
+  link: "https://conferencealerts.com/country-listing.php?country=India&ipp=All&page=1"
+},
+// june
+{
+  id: 113,
+  title: "International Conference on Global Business, Leadership and Social Sciences (ICGBLSS)",
+  date: "2025-06-03T10:00:00",
+  location: "Bangalore, India",
+  type: "in-person",
+  description: "Discusses global business trends, leadership strategies, and social science research.",
+  link: "https://conferencealerts.info/country_event.php?country=India&page=185"
+},
+{
+  id: 115,
+  title: "International Conference on Industrial Engineering and Production Technology (ICIEPT)",
+  date: "2025-06-03T10:00:00",
+  location: "Bangalore, India",
+  type: "in-person",
+  description: "Focuses on the latest research in industrial engineering and production technologies.",
+  link: "https://conferencealerts.info/country_event.php?country=India&page=185"
+},
+{
+    id: 116,
+    title: "International Conference on Industrial Engineering and Production Technology (ICIEPT)",
+    date: "2025-06-03T10:00:00",
+    location: "Bangalore, India",
+    type: "in-person",
+    description: "Focuses on the latest research in industrial engineering and production technologies.",
+    link: "https://ieeeconference.com/Conference/22968/ICIEPT/"
+  },
+  {
+    id: 117,
+    title: "International Conference on Emerging Technologies in Engineering Applications (ICETEA 2025)",
+    date: "2025-06-05T10:00:00",
+    location: "Pondicherry, India",
+    type: "in-person",
+    description: "Explores advancements in communication, signal processing, and automation technologies.",
+    link: "https://smvec.ac.in/icetea2025/"
+  },
+   {
+    id: 118,
+    title: "International Conference on Emerging Trends in Engineering, Science, and Management (ETESM-2025)",
+    date: "2025-06-14T10:00:00",
+    location: "Faridabad, India",
+    type: "hybrid",
+    description: "Discusses innovations in AI, robotics, smart cities, and sustainable business practices.",
+    link: "https://www.eitfaridabad.edu.in/etesm-2025/index.php"
+  },
+  {
+    id: 119,
+    title: "International Conference on Engineering & Technology (ICET 2025)",
+    date: "2025-06-11T10:00:00",
+    location: "Majhitar, India",
+    type: "in-person",
+    description: "Covers topics in engineering design, automation, and computational techniques.",
+    link: "https://www.theides.org/aceecom.html"
+  },
+  {
+    id: 120,
+    title: "International Conference on Advances in Computing Control and Telecom Technologies (ACT 2025)",
+    date: "2025-06-21T10:00:00",
+    location: "Hyderabad, India",
+    type: "in-person",
+    description: "Focuses on advancements in computing, control systems, and telecommunications.",
+    link: "https://www.theides.org/aceecom.html"
+  },
+  {
+    id: 121,
+    title: "International Conference on Innovations in Computational Intelligence and Computer Vision",
+    date: "2025-06-04T10:00:00",
+    location: "Jaipur, India",
+    type: "in-person",
+    description: "Explores innovations in computational intelligence and computer vision technologies.",
+    link: "https://www.theides.org/aceecom.html"
+  },
+  {
+    id: 122,
+    title: "International Conference on Gravitation, Astrophysics and Cosmology",
+    date: "2025-06-09T10:00:00",
+    location: "Akkayapalle, India",
+    type: "in-person",
+    description: "Discusses recent developments in gravitation, astrophysics, and cosmology.",
+    link: "https://www.theides.org/aceecom.html"
+  },
+  {
+    id: 123,
+    title: "RailTrans Expo 2025",
+    date: "2025-06-25T10:00:00",
+    location: "New Delhi, India",
+    type: "in-person",
+    description: "Showcases innovations in railway transportation and infrastructure.",
+    link: "https://www.theides.org/aceecom.html"
+  },
+  {
+    id: 124,
+    title: "International Conference on Engineering and Advancement in Technology",
+    date: "2025-06-27T10:00:00",
+    location: "Hyderabad, India",
+    type: "in-person",
+    description: "Focuses on advancements in engineering and technological innovations.",
+    link: "https://www.theides.org/aceecom.html"
+  },
+  {
+    id: 125,
+    title: "International Conference on Emerging Technology Trends in Engineering and Management (ICETTEM 2025)",
+    date: "2025-06-19T10:00:00",
+    location: "Noida, India",
+    type: "in-person",
+    description: "Addresses emerging trends in engineering, technology, and management.",
+    link: "https://www.amity.edu/icettem2025/"
+  },
+  {
+    id: 126,
+    title: "International Conference on Smart Computing and Communications (ICSCC 2025)",
+    date: "2025-07-03T10:00:00",
+    location: "Kochi, India",
+    type: "in-person",
+    description: "Explores smart computing and communication technologies.",
+    link: "https://www.theides.org/aceecom.html"
+  },
+  {
+    id: 127,
+    title: "Materials, Optimization, Design and Innovation for Sustainable Future (MODI 2025)",
+    date: "2025-07-04T10:00:00",
+    location: "Chennai, India",
+    type: "in-person",
+    description: "Focuses on materials, optimization, and sustainable design innovations.",
+    link: "https://www.theides.org/aceecom.html"
+  },
+  {
+    id: 128,
+    title: "International Conference on Advanced Computing and Communication Technologies for High Performance Applications",
+    date: "2025-07-18T10:00:00",
+    location: "Cochin, India",
+    type: "in-person",
+    description: "Discusses advanced computing and communication technologies for high-performance applications.",
+    link: "https://www.theides.org/aceecom.html"
+  },
+  {
+    id: 129,
+    title: "International Conference on Condensed Matter and Applied Physics",
+    date: "2025-12-12T10:00:00",
+    location: "Bikaner, India",
+    type: "in-person",
+    description: "Explores condensed matter physics and its applications.",
+    link: "https://www.theides.org/aceecom.html"
+  },
+
+  {
+    id: 117,
+    title: "International Conference on Environmental Science and Development",
+    date: "2025-07-15T10:00:00",
+    location: "New Delhi, India",
+    type: "in-person",
+    description: "Focuses on advancements in environmental science and sustainable development practices.",
+    link: "https://www.academicsworld.org/conference.php?dt=2025-07-15&place=New+Delhi%2CIndia"
+  },
+  {
+    id: 118,
+    title: "International Conference on Language, Literature and Culture",
+    date: "2025-07-15T10:00:00",
+    location: "New Delhi, India",
+    type: "in-person",
+    description: "Explores the intersections of language, literature, and cultural studies.",
+    link: "https://www.academicsworld.org/conference.php?dt=2025-07-15&place=New+Delhi%2CIndia"
+  },
+  {
+    id: 119,
+    title: "International Conference on Management and Information Technology",
+    date: "2025-07-15T10:00:00",
+    location: "New Delhi, India",
+    type: "in-person",
+    description: "Discusses recent trends and research in management and information technology.",
+    link: "https://www.academicsworld.org/conference.php?dt=2025-07-15&place=New+Delhi%2CIndia"
+  },
+  {
+    id: 120,
+    title: "International Conference on Mining, Material, and Metallurgical Engineering",
+    date: "2025-07-15T10:00:00",
+    location: "New Delhi, India",
+    type: "in-person",
+    description: "Covers advancements in mining, materials science, and metallurgical engineering.",
+    link: "https://www.academicsworld.org/conference.php?dt=2025-07-15&place=New+Delhi%2CIndia"
+  },
+  {
+    id: 121,
+    title: "International Conference on Recent Advances in Medical and Health Sciences",
+    date: "2025-07-15T10:00:00",
+    location: "New Delhi, India",
+    type: "in-person",
+    description: "Focuses on the latest research and developments in medical and health sciences.",
+    link: "https://www.academicsworld.org/conference.php?dt=2025-07-15&place=New+Delhi%2CIndia"
+  },
+  {
+    id: 122,
+    title: "International Conference on Artificial Intelligence and Soft Computing",
+    date: "2025-07-15T10:00:00",
+    location: "New Delhi, India",
+    type: "in-person",
+    description: "Explores advancements in artificial intelligence and soft computing methodologies.",
+    link: "https://www.academicsworld.org/conference.php?dt=2025-07-15&place=New+Delhi%2CIndia"
+  },
+  {
+    id: 123,
+    title: "International Conference on Science, Social Science and Economics",
+    date: "2025-07-15T10:00:00",
+    location: "New Delhi, India",
+    type: "in-person",
+    description: "Discusses interdisciplinary research in science, social sciences, and economics.",
+    link: "https://www.academicsworld.org/conference.php?dt=2025-07-15&place=New+Delhi%2CIndia"
+  },
+  {
+    id: 124,
+    title: "International Conference on Nanoscience, Nanotechnology and Advanced Materials",
+    date: "2025-07-15T10:00:00",
+    location: "New Delhi, India",
+    type: "in-person",
+    description: "Focuses on recent developments in nanoscience, nanotechnology, and advanced materials.",
+    link: "https://www.academicsworld.org/conference.php?dt=2025-07-15&place=New+Delhi%2CIndia"
+  },
+  {
+    id: 125,
+    title: "International Academic Conference on Engineering, Technology and Innovations",
+    date: "2025-07-15T10:00:00",
+    location: "New Delhi, India",
+    type: "in-person",
+    description: "Covers innovative research in engineering, technology, and related fields.",
+    link: "https://www.academicsworld.org/conference.php?dt=2025-07-15&place=New+Delhi%2CIndia"
+  },
+  {
+    id: 126,
+    title: "International Academic Conference on Development in Science and Technology",
+    date: "2025-07-15T10:00:00",
+    location: "New Delhi, India",
+    type: "in-person",
+    description: "Discusses recent developments and research in science and technology.",
+    link: "https://www.academicsworld.org/conference.php?dt=2025-07-15&place=New+Delhi%2CIndia"
+  },
+  {
+    id: 127,
+    title: "National Conference on Multidisciplinary Studies and Innovations (NCMSI-2025)",
+    date: "2025-07-05T10:00:00",
+    location: "Dehradun, India",
+    type: "in-person",
+    description: "Explores multidisciplinary research and innovations across various fields.",
+    link: "https://www.conferenceworld.in/upcomingconference.php"
+  },
+  {
+    id: 128,
+    title: "International Conference on Integrative Approaches across Multidisciplinary Studies & Research (ICIAMSR-2025)",
+    date: "2025-07-25T10:00:00",
+    location: "Thailand",
+    type: "in-person",
+    description: "Focuses on integrative approaches in multidisciplinary studies and research.",
+    link: "https://www.conferenceworld.in/upcomingconference.php"
+  },
+  
+{
+  id: 129,
+  title: "International Conference on Environmental Science and Development",
+  date: "2025-08-01T10:00:00",
+  location: "Pune, India",
+  type: "in-person",
+  description: "Focuses on environmental science and sustainable development.",
+  link: "https://academicsworld.org/conference.php?dt=2025-08-31&place=Pune%2CIndia"
+},
+{
+  id: 130,
+  title: "International Conference on Management and Information Technology",
+  date: "2025-08-03T10:00:00",
+  location: "Ahmedabad, India",
+  type: "in-person",
+  description: "Discusses recent trends in management and information technology.",
+  link: "https://academicsworld.org/conference.php?dt=2025-08-31&place=Ahmedabad%2CIndia"
+},
+{
+  id: 131,
+  title: "International Conference on Business, Commerce and Management Studies",
+  date: "2025-08-05T10:00:00",
+  location: "Mumbai, India",
+  type: "in-person",
+  description: "Discusses trends and research in business, commerce and management.",
+  link: "https://iierd.com/conference.php"
+},
+{
+  id: 132,
+  title: "International Conference on Medical, Medicine and Health Sciences",
+  date: "2025-08-07T10:00:00",
+  location: "Chennai, India",
+  type: "in-person",
+  description: "Focuses on recent developments in medical and health sciences.",
+  link: "https://iierd.com/conference.php"
+},
+{
+  id: 133,
+  title: "International Conference on Education and E-Learning",
+  date: "2025-08-09T10:00:00",
+  location: "Delhi, India",
+  type: "in-person",
+  description: "Explores innovations in education and digital learning environments.",
+  link: "https://iierd.com/conference.php"
+},
+{
+  id: 134,
+  title: "International Conference on Artificial Intelligence and Soft Computing",
+  date: "2025-08-11T10:00:00",
+  location: "Kolkata, India",
+  type: "in-person",
+  description: "Covers applications of AI and soft computing in modern systems.",
+  link: "https://www.allconferencealert.com/event/1492985"
+},
+{
+  id: 135,
+  title: "International Conference on Renewable Energy and Green Technology",
+  date: "2025-08-13T10:00:00",
+  location: "Hyderabad, India",
+  type: "in-person",
+  description: "Discusses sustainable energy solutions and green technologies.",
+  link: "https://www.allconferencealert.com/event/1494460"
+},
+{
+  id: 136,
+  title: "International Conference on Psychology and Behavioral Sciences",
+  date: "2025-08-15T10:00:00",
+  location: "Bangalore, India",
+  type: "in-person",
+  description: "Examines mental health research and behavioral science approaches.",
+  link: "https://www.allconferencealert.com/event/1327839"
+},
+{
+  id: 137,
+  title: "International Conference on Robotics and Automation",
+  date: "2025-08-17T10:00:00",
+  location: "Mumbai, India",
+  type: "in-person",
+  description: "Covers advancements in robotics, control systems, and automation.",
+  link: "https://www.allconferencealert.com/event/1337937"
+},
+{
+  id: 138,
+  title: "International Conference on Biotechnology and Bioengineering",
+  date: "2025-08-19T10:00:00",
+  location: "Chandigarh, India",
+  type: "in-person",
+  description: "Focuses on innovations in biotechnology and bioengineering fields.",
+  link: "https://www.worldconferencealerts.com/august.php?page=6"
+},
+{
+  id: 139,
+  title: "International Conference on Data Science and Machine Learning",
+  date: "2025-08-21T10:00:00",
+  location: "Jaipur, India",
+  type: "in-person",
+  description: "Explores recent trends and breakthroughs in data science and ML.",
+  link: "https://www.worldconferencealerts.com/august.php?page=6"
+},
+{
+  id: 140,
+  title: "International Conference on Architecture and Civil Engineering",
+  date: "2025-08-23T10:00:00",
+  location: "Nagpur, India",
+  type: "in-person",
+  description: "Focuses on developments in architecture and civil engineering design.",
+  link: "https://www.worldconferencealerts.com/august.php?page=6"
+},
+{
+  id: 141,
+  title: "International Conference on Blockchain and Internet of Things",
+  date: "2025-08-25T10:00:00",
+  location: "Lucknow, India",
+  type: "in-person",
+  description: "Presents research on blockchain integration with IoT applications.",
+  link: "https://iierd.com/conference.php"
+},
+{
+  id: 142,
+  title: "International Conference on Agriculture, Food Sciences and Technology",
+  date: "2025-08-27T10:00:00",
+  location: "Coimbatore, India",
+  type: "in-person",
+  description: "Discusses modern advancements in food production and agriculture.",
+  link: "https://iierd.com/conference.php"
+},
+{
+  id: 143,
+  title: "International Conference on Wireless and Telecommunication Systems",
+  date: "2025-08-29T10:00:00",
+  location: "Visakhapatnam, India",
+  type: "in-person",
+  description: "Focuses on innovations in wireless networks and telecom technologies.",
+  link: "https://iierd.com/conference.php"
+},
+{
+  id: 144,
+  title: "International Conference on Medical Ethics and Professionalism (ICMEP)",
+  date: "2025-09-21T10:00:00",
+  location: "Jaipur, India",
+  type: "in-person",
+  description: "Focuses on ethical practices and professionalism in the medical field.",
+  link: "https://allconferencealert.net/india.php?gad_source=1&gclid=CjwKCAjwm_SzBhAsEiwAXE2Cv_CrF9kM-0Jb_eF7MLxMrz_gfm3T9Qq9ZrVSpRcTWvmBWQOq_exNGhoCUlYQAvD_BwE"
+},
+{
+  id: 145,
+  title: "International Conference on Engineering & Technology (ICET)",
+  date: "2025-09-04T10:00:00",
+  location: "Hyderabad, India",
+  type: "in-person",
+  description: "Covers advancements and research in engineering and technology.",
+  link: "https://allconferencealert.net/event-details.php?EV-id=807017"
+},
+{
+  id: 146,
+  title: "International Conference on Medical, Biological and Pharmaceutical Sciences (ICMBPS)",
+  date: "2025-09-09T10:00:00",
+  location: "Chennai, India",
+  type: "in-person",
+  description: "Focuses on research in medical, biological, and pharmaceutical sciences.",
+  link: "https://allconferencealert.net/event-details.php?EV-id=807034"
+},
+{
+  id: 147,
+  title: "International Conference on Finance, Bank & Economics (ICFBE)",
+  date: "2025-09-16T10:00:00",
+  location: "Delhi, India",
+  type: "in-person",
+  description: "Explores recent developments in finance, banking, and economics.",
+  link: "https://allconferencealert.net/event-details.php?EV-id=807022"
+},
+{
+  id: 148,
+  title: "International Conference on Nursing Ethics and Medical Ethics (ICNEME)",
+  date: "2025-09-16T10:00:00",
+  location: "Delhi, India",
+  type: "in-person",
+  description: "Discusses ethical considerations in nursing and medical practices.",
+  link: "https://allconferencealert.net/event-details.php?EV-id=807023"
+}
+
+
+
+    ];
+
+    const modal = document.getElementById('modal');
+    const modalTitle = document.getElementById('modal-title');
+    const modalDate = document.getElementById('modal-date');
+    const modalLocation = document.getElementById('modal-location');
+    const modalDescription = document.getElementById('modal-description');
+    const modalLink = document.getElementById('modal-link');
+    const closeBtn = document.querySelector('.close');
+
+    const calendar = document.getElementById('calendar');
+    const currentMonthYear = document.getElementById('current-month-year');
+    const prevMonthBtn = document.getElementById('prev-month');
+    const nextMonthBtn = document.getElementById('next-month');
+    const filterTypeSelect = document.getElementById('filter-type');
+
+    // Initial start month/year: May 2024 (first conference month)
+    const minDate = new Date(2025, 4, 1);
+    const maxDate = new Date(2025, 8, 30);
+    let currentYear = minDate.getFullYear();
+    let currentMonth = minDate.getMonth();
+
+    // Weekday headers
+    const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    const monthNames = [
+      'January', 'February', 'March', 'April', 'May',
+      'June', 'July', 'August', 'September', 'October', 'November', 'December'
+    ];
+
+    // Render weekday headers
+    function renderDayNames() {
+      let html = '';
+      for (const day of dayNames) {
+        html += `<div class="day-name">${day}</div>`;
+      }
+      calendar.innerHTML = html;
+    }
+
+    // Filter and get conferences for a specific day with selected filter type
+    function conferencesOnDate(year, month, day) {
+      const filterType = filterTypeSelect.value;
+      const dateStrISO = `${year}-${String(month+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+      let filtered = conferences.filter(c => c.date.startsWith(dateStrISO));
+      if (filterType !== 'all') {
+        filtered = filtered.filter(c => c.type === filterType);
+      }
+      return filtered;
+    }
+
+    function renderCalendar(month, year) {
+      // Check date boundaries
+      const thisMonth = new Date(year, month, 1);
+      if (thisMonth < minDate || thisMonth > maxDate) {
+        calendar.innerHTML = `<div style="grid-column: span 7; text-align: center; font-weight: 700; font-size: 1.3rem; color: var(--color-pink); padding: 20px;">
+          No conferences available for ${monthNames[month]} ${year}
+        </div>`;
+        currentMonthYear.textContent = `${monthNames[month]} ${year}`;
+        prevMonthBtn.disabled = (new Date(year, month, 1) <= minDate);
+        nextMonthBtn.disabled = (new Date(year, month, 1) >= maxDate);
+        return;
+      }
+
+      renderDayNames();
+      currentMonthYear.textContent = `${monthNames[month]} ${year}`;
+
+      const firstDayWeekDay = new Date(year, month, 1).getDay(); // 0=Sun,6=Sat
+      const daysInMonth = new Date(year, month+1, 0).getDate();
+
+      // Reset calendar: weekday headers included, so start adding days after 7 grid elements
+      // But since renderDayNames replaced innerHTML, we append days next
+      for (let blank = 0; blank < firstDayWeekDay; blank++) {
+        const emptyCell = document.createElement('div');
+        emptyCell.className = 'day disabled';
+        calendar.appendChild(emptyCell);
+      }
+
+      for (let day=1; day<=daysInMonth; day++) {
+        const dayCell = document.createElement('div');
+        dayCell.className = 'day';
+
+        // Date number
+        const dateNumDiv = document.createElement('div');
+        dateNumDiv.className = 'date-number';
+        dateNumDiv.textContent = day;
+        dayCell.appendChild(dateNumDiv);
+
+        // Check conferences for this day & filter
+        const dayConfs = conferencesOnDate(year, month, day);
+
+        if (dayConfs.length > 0) {
+          // Dot indicator for each conference type present (online/offline)
+          const conferenceTypesToday = [...new Set(dayConfs.map(c => c.type))];
+          for (const type of conferenceTypesToday) {
+            const dot = document.createElement('div');
+            dot.classList.add('event-indicator');
+            dot.classList.add(type === 'online' ? 'event-online' : 'event-offline');
+            dayCell.appendChild(dot);
+          }
+
+          dayCell.tabIndex = 0; // Make focusable
+          dayCell.setAttribute('role', 'button');
+          dayCell.setAttribute('aria-label', `Day ${day} in ${monthNames[month]} ${year}, ${dayConfs.length} conference${dayConfs.length>1?'s':''} available`);
+          dayCell.addEventListener('click', () => showDayModal(dayConfs));
+          dayCell.addEventListener('keypress', e => {
+            if(e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              showDayModal(dayConfs);
+            }
+          });
+        } else {
+          dayCell.classList.add('disabled');
+          dayCell.setAttribute('aria-disabled', 'true');
+          dayCell.tabIndex = -1;
+        }
+
+        calendar.appendChild(dayCell);
+      }
+
+      // Fill trailing blanks to finish full weeks of 7 cells.
+      const totalCells = firstDayWeekDay + daysInMonth;
+      const remainder = totalCells % 7;
+      if (remainder !== 0) {
+        for (let i=0; i < 7 - remainder; i++) {
+          const emptyCell = document.createElement('div');
+          emptyCell.className = 'day disabled';
+          calendar.appendChild(emptyCell);
+        }
+      }
+
+      // Enable/disable nav buttons based on boundaries
+      prevMonthBtn.disabled = (new Date(year, month, 1) <= minDate);
+      nextMonthBtn.disabled = (new Date(year, month, 1) >= maxDate);
+    }
+
+    // Display modal for one or multiple conferences on day
+    function showDayModal(dayConfs) {
+      if (dayConfs.length === 1) {
+        showConferenceModal(dayConfs[0]);
+      } else {
+        // Show combined info of multiple conferences for date in modal
+        modalTitle.textContent = `${dayConfs.length} Conferences on ${formatFullDate(dayConfs[0].date)}`;
+
+        modalDate.textContent = '';
+        modalLocation.textContent = '';
+
+        modalDescription.innerHTML = dayConfs.map(conf => `
+          <strong>${conf.title}</strong> (${conf.location} — ${capitalize(conf.type)})
+          <br>${conf.description}
+          <br><a href="${conf.link}" target="_blank" rel="noopener noreferrer" style="color: var(--color-pink); font-weight: 700; text-decoration: underline;">Register Here</a>
+          <hr style="margin: 14px 0; border-color: var(--color-light-pink);">
+        `).join('');
+
+        modalLink.style.display = 'none';
+
+        modal.style.display = 'block';
+        modal.focus();
+      }
+    }
+
+    // Show modal details for single conference
+    function showConferenceModal(conf) {
+      modalTitle.textContent = conf.title;
+      modalDate.textContent = formatFullDate(conf.date);
+      modalLocation.textContent = `Location: ${conf.location} (${capitalize(conf.type)})`;
+      modalDescription.textContent = conf.description;
+      modalLink.href = conf.link;
+      modalLink.style.display = 'inline-block';
+
+      modal.style.display = 'block';
+      modal.focus();
+    }
+
+    // Format date for modal display e.g. Sunday, May 5, 2024, 10:00 AM
+    function formatFullDate(dateIsoStr) {
+      let d = new Date(dateIsoStr);
+      return d.toLocaleDateString(undefined, { 
+        weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',
+        hour: '2-digit', minute: '2-digit', hour12: true,
+      });
+    }
+
+    function capitalize(text) {
+      if (!text) return '';
+      return text.charAt(0).toUpperCase() + text.slice(1);
+    }
+
+    // Navigation handlers
+    prevMonthBtn.addEventListener('click', () => {
+      let newMonth = currentMonth - 1, newYear = currentYear;
+      if (newMonth < 0) { newMonth = 11; newYear--; }
+      if (new Date(newYear, newMonth, 1) >= minDate) {
+        currentMonth = newMonth;
+        currentYear = newYear;
+        renderCalendar(currentMonth, currentYear);
+      }
+    });
+
+    nextMonthBtn.addEventListener('click', () => {
+      let newMonth = currentMonth + 1, newYear = currentYear;
+      if (newMonth > 11) { newMonth = 0; newYear++; }
+      if (new Date(newYear, newMonth, 1) <= maxDate) {
+        currentMonth = newMonth;
+        currentYear = newYear;
+        renderCalendar(currentMonth, currentYear);
+      }
+    });
+
+    // Filter type change -> refresh current month
+    filterTypeSelect.addEventListener('change', () => {
+      renderCalendar(currentMonth, currentYear);
+    });
+
+    // Modal close
+    closeBtn.addEventListener('click', () => {
+      modal.style.display = 'none';
+    });
+    // Close on click outside modal-content
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        modal.style.display = 'none';
+      }
+    });
+    // Close on Escape key
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modal.style.display === 'block') {
+        modal.style.display = 'none';
+      }
+    });
+
+    // Initialize calendar on page load
+    renderCalendar(currentMonth, currentYear);
+  </script>
+
+</body>
+</html>
